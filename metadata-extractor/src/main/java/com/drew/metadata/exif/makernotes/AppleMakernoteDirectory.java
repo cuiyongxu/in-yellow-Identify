@@ -33,8 +33,7 @@ import java.util.HashMap;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class AppleMakernoteDirectory extends Directory
-{
+public class AppleMakernoteDirectory extends Directory {
     public static final int TAG_RUN_TIME = 0x0003;
     public static final int TAG_HDR_IMAGE_TYPE = 0x000a;
     public static final int TAG_BURST_UUID = 0x000b;
@@ -42,29 +41,25 @@ public class AppleMakernoteDirectory extends Directory
     @NotNull
     protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
-    static
-    {
+    static {
         _tagNameMap.put(TAG_RUN_TIME, "Run Time");
         _tagNameMap.put(TAG_HDR_IMAGE_TYPE, "HDR Image Type");
         _tagNameMap.put(TAG_BURST_UUID, "Burst UUID");
     }
 
-    public AppleMakernoteDirectory()
-    {
+    public AppleMakernoteDirectory() {
         this.setDescriptor(new AppleMakernoteDescriptor(this));
     }
 
     @Override
     @NotNull
-    public String getName()
-    {
+    public String getName() {
         return "Apple Makernote";
     }
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
-    {
+    protected HashMap<Integer, String> getTagNameMap() {
         return _tagNameMap;
     }
 }

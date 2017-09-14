@@ -27,95 +27,93 @@ import java.util.HashMap;
 
 /**
  * Describes tags specific to Canon cameras.
- *
+ * <p>
  * Thanks to Bill Richards for his contribution to this makernote directory.
- *
+ * <p>
  * Many tag definitions explained here: http://www.ozhiker.com/electronics/pjmt/jpeg_info/canon_mn.html
  *
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class CanonMakernoteDirectory extends Directory
-{
+public class CanonMakernoteDirectory extends Directory {
     // These TAG_*_ARRAY Exif tags map to arrays of int16 values which are split out into separate 'fake' tags.
     // When an attempt is made to set one of these on the directory, it is split and the corresponding offset added to the tagType.
     // So the resulting tag is the offset + the index into the array.
 
-    private static final int TAG_CAMERA_SETTINGS_ARRAY          = 0x0001;
-    private static final int TAG_FOCAL_LENGTH_ARRAY             = 0x0002;
-//    private static final int TAG_FLASH_INFO                     = 0x0003;
-    private static final int TAG_SHOT_INFO_ARRAY                = 0x0004;
-    private static final int TAG_PANORAMA_ARRAY                 = 0x0005;
+    private static final int TAG_CAMERA_SETTINGS_ARRAY = 0x0001;
+    private static final int TAG_FOCAL_LENGTH_ARRAY = 0x0002;
+    //    private static final int TAG_FLASH_INFO                     = 0x0003;
+    private static final int TAG_SHOT_INFO_ARRAY = 0x0004;
+    private static final int TAG_PANORAMA_ARRAY = 0x0005;
 
-    public static final int TAG_CANON_IMAGE_TYPE                = 0x0006;
-    public static final int TAG_CANON_FIRMWARE_VERSION          = 0x0007;
-    public static final int TAG_CANON_IMAGE_NUMBER              = 0x0008;
-    public static final int TAG_CANON_OWNER_NAME                = 0x0009;
-    public static final int TAG_CANON_SERIAL_NUMBER             = 0x000C;
-    public static final int TAG_CAMERA_INFO_ARRAY               = 0x000D; // depends upon model, so leave for now
-    public static final int TAG_CANON_FILE_LENGTH               = 0x000E;
-    public static final int TAG_CANON_CUSTOM_FUNCTIONS_ARRAY    = 0x000F; // depends upon model, so leave for now
-    public static final int TAG_MODEL_ID                        = 0x0010;
-    public static final int TAG_MOVIE_INFO_ARRAY                = 0x0011; // not currently decoded as not sure we see it in still images
-    private static final int TAG_AF_INFO_ARRAY                  = 0x0012; // not currently decoded
-    public static final int TAG_THUMBNAIL_IMAGE_VALID_AREA      = 0x0013;
-    public static final int TAG_SERIAL_NUMBER_FORMAT            = 0x0015;
-    public static final int TAG_SUPER_MACRO                     = 0x001A;
-    public static final int TAG_DATE_STAMP_MODE                 = 0x001C;
-    public static final int TAG_MY_COLORS                       = 0x001D;
-    public static final int TAG_FIRMWARE_REVISION               = 0x001E;
-    public static final int TAG_CATEGORIES                      = 0x0023;
-    public static final int TAG_FACE_DETECT_ARRAY_1             = 0x0024;
-    public static final int TAG_FACE_DETECT_ARRAY_2             = 0x0025;
-    public static final int TAG_AF_INFO_ARRAY_2                 = 0x0026;
-    public static final int TAG_IMAGE_UNIQUE_ID                 = 0x0028;
+    public static final int TAG_CANON_IMAGE_TYPE = 0x0006;
+    public static final int TAG_CANON_FIRMWARE_VERSION = 0x0007;
+    public static final int TAG_CANON_IMAGE_NUMBER = 0x0008;
+    public static final int TAG_CANON_OWNER_NAME = 0x0009;
+    public static final int TAG_CANON_SERIAL_NUMBER = 0x000C;
+    public static final int TAG_CAMERA_INFO_ARRAY = 0x000D; // depends upon model, so leave for now
+    public static final int TAG_CANON_FILE_LENGTH = 0x000E;
+    public static final int TAG_CANON_CUSTOM_FUNCTIONS_ARRAY = 0x000F; // depends upon model, so leave for now
+    public static final int TAG_MODEL_ID = 0x0010;
+    public static final int TAG_MOVIE_INFO_ARRAY = 0x0011; // not currently decoded as not sure we see it in still images
+    private static final int TAG_AF_INFO_ARRAY = 0x0012; // not currently decoded
+    public static final int TAG_THUMBNAIL_IMAGE_VALID_AREA = 0x0013;
+    public static final int TAG_SERIAL_NUMBER_FORMAT = 0x0015;
+    public static final int TAG_SUPER_MACRO = 0x001A;
+    public static final int TAG_DATE_STAMP_MODE = 0x001C;
+    public static final int TAG_MY_COLORS = 0x001D;
+    public static final int TAG_FIRMWARE_REVISION = 0x001E;
+    public static final int TAG_CATEGORIES = 0x0023;
+    public static final int TAG_FACE_DETECT_ARRAY_1 = 0x0024;
+    public static final int TAG_FACE_DETECT_ARRAY_2 = 0x0025;
+    public static final int TAG_AF_INFO_ARRAY_2 = 0x0026;
+    public static final int TAG_IMAGE_UNIQUE_ID = 0x0028;
 
-    public static final int TAG_RAW_DATA_OFFSET                 = 0x0081;
-    public static final int TAG_ORIGINAL_DECISION_DATA_OFFSET   = 0x0083;
+    public static final int TAG_RAW_DATA_OFFSET = 0x0081;
+    public static final int TAG_ORIGINAL_DECISION_DATA_OFFSET = 0x0083;
 
-    public static final int TAG_CUSTOM_FUNCTIONS_1D_ARRAY       = 0x0090; // not currently decoded
-    public static final int TAG_PERSONAL_FUNCTIONS_ARRAY        = 0x0091; // not currently decoded
-    public static final int TAG_PERSONAL_FUNCTION_VALUES_ARRAY  = 0x0092; // not currently decoded
-    public static final int TAG_FILE_INFO_ARRAY                 = 0x0093; // not currently decoded
-    public static final int TAG_AF_POINTS_IN_FOCUS_1D           = 0x0094;
-    public static final int TAG_LENS_MODEL                      = 0x0095;
-    public static final int TAG_SERIAL_INFO_ARRAY               = 0x0096; // not currently decoded
-    public static final int TAG_DUST_REMOVAL_DATA               = 0x0097;
-    public static final int TAG_CROP_INFO                       = 0x0098; // not currently decoded
-    public static final int TAG_CUSTOM_FUNCTIONS_ARRAY_2        = 0x0099; // not currently decoded
-    public static final int TAG_ASPECT_INFO_ARRAY               = 0x009A; // not currently decoded
-    public static final int TAG_PROCESSING_INFO_ARRAY           = 0x00A0; // not currently decoded
-    public static final int TAG_TONE_CURVE_TABLE                = 0x00A1;
-    public static final int TAG_SHARPNESS_TABLE                 = 0x00A2;
-    public static final int TAG_SHARPNESS_FREQ_TABLE            = 0x00A3;
-    public static final int TAG_WHITE_BALANCE_TABLE             = 0x00A4;
-    public static final int TAG_COLOR_BALANCE_ARRAY             = 0x00A9; // not currently decoded
-    public static final int TAG_MEASURED_COLOR_ARRAY            = 0x00AA; // not currently decoded
-    public static final int TAG_COLOR_TEMPERATURE               = 0x00AE;
-    public static final int TAG_CANON_FLAGS_ARRAY               = 0x00B0; // not currently decoded
-    public static final int TAG_MODIFIED_INFO_ARRAY             = 0x00B1; // not currently decoded
-    public static final int TAG_TONE_CURVE_MATCHING             = 0x00B2;
-    public static final int TAG_WHITE_BALANCE_MATCHING          = 0x00B3;
-    public static final int TAG_COLOR_SPACE                     = 0x00B4;
-    public static final int TAG_PREVIEW_IMAGE_INFO_ARRAY        = 0x00B6; // not currently decoded
-    public static final int TAG_VRD_OFFSET                      = 0x00D0;
-    public static final int TAG_SENSOR_INFO_ARRAY               = 0x00E0; // not currently decoded
+    public static final int TAG_CUSTOM_FUNCTIONS_1D_ARRAY = 0x0090; // not currently decoded
+    public static final int TAG_PERSONAL_FUNCTIONS_ARRAY = 0x0091; // not currently decoded
+    public static final int TAG_PERSONAL_FUNCTION_VALUES_ARRAY = 0x0092; // not currently decoded
+    public static final int TAG_FILE_INFO_ARRAY = 0x0093; // not currently decoded
+    public static final int TAG_AF_POINTS_IN_FOCUS_1D = 0x0094;
+    public static final int TAG_LENS_MODEL = 0x0095;
+    public static final int TAG_SERIAL_INFO_ARRAY = 0x0096; // not currently decoded
+    public static final int TAG_DUST_REMOVAL_DATA = 0x0097;
+    public static final int TAG_CROP_INFO = 0x0098; // not currently decoded
+    public static final int TAG_CUSTOM_FUNCTIONS_ARRAY_2 = 0x0099; // not currently decoded
+    public static final int TAG_ASPECT_INFO_ARRAY = 0x009A; // not currently decoded
+    public static final int TAG_PROCESSING_INFO_ARRAY = 0x00A0; // not currently decoded
+    public static final int TAG_TONE_CURVE_TABLE = 0x00A1;
+    public static final int TAG_SHARPNESS_TABLE = 0x00A2;
+    public static final int TAG_SHARPNESS_FREQ_TABLE = 0x00A3;
+    public static final int TAG_WHITE_BALANCE_TABLE = 0x00A4;
+    public static final int TAG_COLOR_BALANCE_ARRAY = 0x00A9; // not currently decoded
+    public static final int TAG_MEASURED_COLOR_ARRAY = 0x00AA; // not currently decoded
+    public static final int TAG_COLOR_TEMPERATURE = 0x00AE;
+    public static final int TAG_CANON_FLAGS_ARRAY = 0x00B0; // not currently decoded
+    public static final int TAG_MODIFIED_INFO_ARRAY = 0x00B1; // not currently decoded
+    public static final int TAG_TONE_CURVE_MATCHING = 0x00B2;
+    public static final int TAG_WHITE_BALANCE_MATCHING = 0x00B3;
+    public static final int TAG_COLOR_SPACE = 0x00B4;
+    public static final int TAG_PREVIEW_IMAGE_INFO_ARRAY = 0x00B6; // not currently decoded
+    public static final int TAG_VRD_OFFSET = 0x00D0;
+    public static final int TAG_SENSOR_INFO_ARRAY = 0x00E0; // not currently decoded
 
-    public static final int TAG_COLOR_DATA_ARRAY_2              = 0x4001; // depends upon camera model, not currently decoded
-    public static final int TAG_CRW_PARAM                       = 0x4002; // depends upon camera model, not currently decoded
-    public static final int TAG_COLOR_INFO_ARRAY_2              = 0x4003; // not currently decoded
-    public static final int TAG_BLACK_LEVEL                     = 0x4008; // not currently decoded
-    public static final int TAG_CUSTOM_PICTURE_STYLE_FILE_NAME  = 0x4010;
-    public static final int TAG_COLOR_INFO_ARRAY                = 0x4013; // not currently decoded
-    public static final int TAG_VIGNETTING_CORRECTION_ARRAY_1   = 0x4015; // not currently decoded
-    public static final int TAG_VIGNETTING_CORRECTION_ARRAY_2   = 0x4016; // not currently decoded
-    public static final int TAG_LIGHTING_OPTIMIZER_ARRAY        = 0x4018; // not currently decoded
-    public static final int TAG_LENS_INFO_ARRAY                 = 0x4019; // not currently decoded
-    public static final int TAG_AMBIANCE_INFO_ARRAY             = 0x4020; // not currently decoded
-    public static final int TAG_FILTER_INFO_ARRAY               = 0x4024; // not currently decoded
+    public static final int TAG_COLOR_DATA_ARRAY_2 = 0x4001; // depends upon camera model, not currently decoded
+    public static final int TAG_CRW_PARAM = 0x4002; // depends upon camera model, not currently decoded
+    public static final int TAG_COLOR_INFO_ARRAY_2 = 0x4003; // not currently decoded
+    public static final int TAG_BLACK_LEVEL = 0x4008; // not currently decoded
+    public static final int TAG_CUSTOM_PICTURE_STYLE_FILE_NAME = 0x4010;
+    public static final int TAG_COLOR_INFO_ARRAY = 0x4013; // not currently decoded
+    public static final int TAG_VIGNETTING_CORRECTION_ARRAY_1 = 0x4015; // not currently decoded
+    public static final int TAG_VIGNETTING_CORRECTION_ARRAY_2 = 0x4016; // not currently decoded
+    public static final int TAG_LIGHTING_OPTIMIZER_ARRAY = 0x4018; // not currently decoded
+    public static final int TAG_LENS_INFO_ARRAY = 0x4019; // not currently decoded
+    public static final int TAG_AMBIANCE_INFO_ARRAY = 0x4020; // not currently decoded
+    public static final int TAG_FILTER_INFO_ARRAY = 0x4024; // not currently decoded
 
-    public final static class CameraSettings
-    {
+    public final static class CameraSettings {
         // These 'sub'-tag values have been created for consistency -- they don't exist within the exif segment
         private static final int OFFSET = 0xC100;
 
@@ -277,8 +275,7 @@ public class CanonMakernoteDirectory extends Directory
         public static final int TAG_SRAW_QUALITY = OFFSET + 0x2D;
     }
 
-    public final static class FocalLength
-    {
+    public final static class FocalLength {
         // These 'sub'-tag values have been created for consistency -- they don't exist within the exif segment
 
         private static final int OFFSET = 0xC200;
@@ -297,7 +294,7 @@ public class CanonMakernoteDirectory extends Directory
         public static final int TAG_AF_POINT_USED = OFFSET + 0x0E;
         /**
          * The value of this tag may be translated into a flash bias value, in EV.
-         *
+         * <p>
          * 0xffc0 = -2 EV
          * 0xffcc = -1.67 EV
          * 0xffd0 = -1.5 EV
@@ -322,8 +319,7 @@ public class CanonMakernoteDirectory extends Directory
         public static final int TAG_SUBJECT_DISTANCE = OFFSET + 0x13;
     }
 
-    public final static class ShotInfo
-    {
+    public final static class ShotInfo {
         // These 'sub'-tag values have been created for consistency -- they don't exist within the exif segment
 
         private static final int OFFSET = 0xC400;
@@ -358,8 +354,7 @@ public class CanonMakernoteDirectory extends Directory
         public static final int TAG_FLASH_OUTPUT = OFFSET + 33;
     }
 
-    public final static class Panorama
-    {
+    public final static class Panorama {
         // These 'sub'-tag values have been created for consistency -- they don't exist within the exif segment
 
         private static final int OFFSET = 0xC500;
@@ -368,8 +363,7 @@ public class CanonMakernoteDirectory extends Directory
         public static final int TAG_PANORAMA_DIRECTION = OFFSET + 5;
     }
 
-    public final static class AFInfo
-    {
+    public final static class AFInfo {
         // These 'sub'-tag values have been created for consistency -- they don't exist within the exif segment
 
         private static final int OFFSET = 0xD200;
@@ -491,8 +485,7 @@ public class CanonMakernoteDirectory extends Directory
     @NotNull
     protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
-    static
-    {
+    static {
         _tagNameMap.put(TAG_CANON_FIRMWARE_VERSION, "Firmware Version");
         _tagNameMap.put(TAG_CANON_IMAGE_NUMBER, "Image Number");
         _tagNameMap.put(TAG_CANON_IMAGE_TYPE, "Image Type");
@@ -667,28 +660,24 @@ public class CanonMakernoteDirectory extends Directory
         _tagNameMap.put(TAG_FILTER_INFO_ARRAY, "Filter Info Array");
     }
 
-    public CanonMakernoteDirectory()
-    {
+    public CanonMakernoteDirectory() {
         this.setDescriptor(new CanonMakernoteDescriptor(this));
     }
 
     @Override
     @NotNull
-    public String getName()
-    {
+    public String getName() {
         return "Canon Makernote";
     }
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
-    {
+    protected HashMap<Integer, String> getTagNameMap() {
         return _tagNameMap;
     }
 
     @Override
-    public void setObjectArray(int tagType, @NotNull Object array)
-    {
+    public void setObjectArray(int tagType, @NotNull Object array) {
         // TODO is there some way to drop out 'null' or 'zero' values that are present in the array to reduce the noise?
 
         if (!(array instanceof int[])) {
@@ -703,25 +692,25 @@ public class CanonMakernoteDirectory extends Directory
         // Otherwise just add as usual.
         switch (tagType) {
             case TAG_CAMERA_SETTINGS_ARRAY: {
-                int[] ints = (int[])array;
+                int[] ints = (int[]) array;
                 for (int i = 0; i < ints.length; i++)
                     setInt(CameraSettings.OFFSET + i, ints[i]);
                 break;
             }
             case TAG_FOCAL_LENGTH_ARRAY: {
-                int[] ints = (int[])array;
+                int[] ints = (int[]) array;
                 for (int i = 0; i < ints.length; i++)
                     setInt(FocalLength.OFFSET + i, ints[i]);
                 break;
             }
             case TAG_SHOT_INFO_ARRAY: {
-                int[] ints = (int[])array;
+                int[] ints = (int[]) array;
                 for (int i = 0; i < ints.length; i++)
                     setInt(ShotInfo.OFFSET + i, ints[i]);
                 break;
             }
             case TAG_PANORAMA_ARRAY: {
-                int[] ints = (int[])array;
+                int[] ints = (int[]) array;
                 for (int i = 0; i < ints.length; i++)
                     setInt(Panorama.OFFSET + i, ints[i]);
                 break;
@@ -749,41 +738,34 @@ public class CanonMakernoteDirectory extends Directory
                 // For these, read specific subsequent bytes from the array based on the tag type. The
                 // number of bytes read can vary.
 
-                int[] values = (int[])array;
+                int[] values = (int[]) array;
                 int numafpoints = values[0];
                 int tagnumber = 0;
-                for (int i = 0; i < values.length; i++)
-                {
+                for (int i = 0; i < values.length; i++) {
                     // These two tags store 'numafpoints' bytes of data in the array
                     if (AFInfo.OFFSET + tagnumber == AFInfo.TAG_AF_AREA_X_POSITIONS ||
-                        AFInfo.OFFSET + tagnumber == AFInfo.TAG_AF_AREA_Y_POSITIONS)
-                    {
+                            AFInfo.OFFSET + tagnumber == AFInfo.TAG_AF_AREA_Y_POSITIONS) {
                         // There could be incorrect data in the array, so boundary check
-                        if (values.length - 1 >= (i + numafpoints))
-                        {
+                        if (values.length - 1 >= (i + numafpoints)) {
                             short[] areaPositions = new short[numafpoints];
                             for (int j = 0; j < areaPositions.length; j++)
-                                areaPositions[j] = (short)values[i + j];
+                                areaPositions[j] = (short) values[i + j];
 
                             super.setObjectArray(AFInfo.OFFSET + tagnumber, areaPositions);
                         }
                         i += numafpoints - 1;   // assume these bytes are processed and skip
-                    }
-                    else if (AFInfo.OFFSET + tagnumber == AFInfo.TAG_AF_POINTS_IN_FOCUS)
-                    {
+                    } else if (AFInfo.OFFSET + tagnumber == AFInfo.TAG_AF_POINTS_IN_FOCUS) {
                         short[] pointsInFocus = new short[((numafpoints + 15) / 16)];
 
                         // There could be incorrect data in the array, so boundary check
-                        if (values.length - 1 >= (i + pointsInFocus.length))
-                        {
+                        if (values.length - 1 >= (i + pointsInFocus.length)) {
                             for (int j = 0; j < pointsInFocus.length; j++)
-                                pointsInFocus[j] = (short)values[i + j];
+                                pointsInFocus[j] = (short) values[i + j];
 
                             super.setObjectArray(AFInfo.OFFSET + tagnumber, pointsInFocus);
                         }
                         i += pointsInFocus.length - 1;  // assume these bytes are processed and skip
-                    }
-                    else
+                    } else
                         super.setObjectArray(AFInfo.OFFSET + tagnumber, values[i]);
                     tagnumber++;
                 }

@@ -30,16 +30,13 @@ import static com.drew.metadata.adobe.AdobeJpegDirectory.*;
  * Provides human-readable string versions of the tags stored in an AdobeJpegDirectory.
  */
 @SuppressWarnings("WeakerAccess")
-public class AdobeJpegDescriptor extends TagDescriptor<AdobeJpegDirectory>
-{
-    public AdobeJpegDescriptor(AdobeJpegDirectory directory)
-    {
+public class AdobeJpegDescriptor extends TagDescriptor<AdobeJpegDirectory> {
+    public AdobeJpegDescriptor(AdobeJpegDirectory directory) {
         super(directory);
     }
 
     @Override
-    public String getDescription(int tagType)
-    {
+    public String getDescription(int tagType) {
         switch (tagType) {
             case TAG_COLOR_TRANSFORM:
                 return getColorTransformDescription();
@@ -51,22 +48,20 @@ public class AdobeJpegDescriptor extends TagDescriptor<AdobeJpegDirectory>
     }
 
     @Nullable
-    private String getDctEncodeVersionDescription()
-    {
+    private String getDctEncodeVersionDescription() {
         Integer value = _directory.getInteger(TAG_DCT_ENCODE_VERSION);
         return value == null
                 ? null
                 : value == 0x64
-                    ? "100"
-                    : Integer.toString(value);
+                ? "100"
+                : Integer.toString(value);
     }
 
     @Nullable
-    private String getColorTransformDescription()
-    {
+    private String getColorTransformDescription() {
         return getIndexedDescription(TAG_COLOR_TRANSFORM,
-            "Unknown (RGB or CMYK)",
-            "YCbCr",
-            "YCCK");
+                "Unknown (RGB or CMYK)",
+                "YCbCr",
+                "YCCK");
     }
 }

@@ -16,8 +16,8 @@ import java.util.Arrays;
  */
 public class ReadImage {
 
-
-    private String fileName = "black.jpg";
+    private String[] imageName = new String[]{"1.jpeg", "black.jpg", "DSC_6837.JPG", "DSC_7083.png"};
+    private String fileName = imageName[1];
 
     @Test
     public void readImage() {

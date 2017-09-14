@@ -33,16 +33,13 @@ import static com.drew.metadata.bmp.BmpHeaderDirectory.*;
  * @author Nadahar
  */
 @SuppressWarnings("WeakerAccess")
-public class BmpHeaderDescriptor extends TagDescriptor<BmpHeaderDirectory>
-{
-    public BmpHeaderDescriptor(@NotNull BmpHeaderDirectory directory)
-    {
+public class BmpHeaderDescriptor extends TagDescriptor<BmpHeaderDirectory> {
+    public BmpHeaderDescriptor(@NotNull BmpHeaderDirectory directory) {
         super(directory);
     }
 
     @Override
-    public String getDescription(int tagType)
-    {
+    public String getDescription(int tagType) {
         switch (tagType) {
             case TAG_BITMAP_TYPE:
                 return getBitmapTypeDescription();
@@ -71,15 +68,13 @@ public class BmpHeaderDescriptor extends TagDescriptor<BmpHeaderDirectory>
     }
 
     @Nullable
-    public String getBitmapTypeDescription()
-    {
+    public String getBitmapTypeDescription() {
         BitmapType bitmapType = _directory.getBitmapType();
         return bitmapType == null ? null : bitmapType.toString();
     }
 
     @Nullable
-    public String getCompressionDescription()
-    {
+    public String getCompressionDescription() {
         //  0 = None
         //  1 = RLE 8-bit/pixel
         //  2 = RLE 4-bit/pixel
@@ -99,29 +94,25 @@ public class BmpHeaderDescriptor extends TagDescriptor<BmpHeaderDirectory>
     }
 
     @Nullable
-    public String getRenderingDescription()
-    {
+    public String getRenderingDescription() {
         RenderingHalftoningAlgorithm renderingHalftoningAlgorithm = _directory.getRendering();
         return renderingHalftoningAlgorithm == null ? null : renderingHalftoningAlgorithm.toString();
     }
 
     @Nullable
-    public String getColorEncodingDescription()
-    {
+    public String getColorEncodingDescription() {
         ColorEncoding colorEncoding = _directory.getColorEncoding();
         return colorEncoding == null ? null : colorEncoding.toString();
     }
 
     @Nullable
-    public String getColorSpaceTypeDescription()
-    {
+    public String getColorSpaceTypeDescription() {
         ColorSpaceType colorSpaceType = _directory.getColorSpaceType();
         return colorSpaceType == null ? null : colorSpaceType.toString();
     }
 
     @Nullable
-    public String getRenderingIntentDescription()
-    {
+    public String getRenderingIntentDescription() {
         RenderingIntent renderingIntent = _directory.getRenderingIntent();
         return renderingIntent == null ? null : renderingIntent.toString();
     }
@@ -143,7 +134,7 @@ public class BmpHeaderDescriptor extends TagDescriptor<BmpHeaderDirectory>
 
     @NotNull
     public static String formatHex(long value, int digits) {
-        return String.format("0x%0"+ digits + "X", value);
+        return String.format("0x%0" + digits + "X", value);
     }
 
     @Nullable

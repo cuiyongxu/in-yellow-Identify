@@ -38,18 +38,17 @@ import java.io.IOException;
  * <p>
  * References:
  * <ul>
- *   <li><a href="https://web.archive.org/web/20170302205626/http://fileformats.archiveteam.org/wiki/BMP">Fileformats Wiki BMP overview</a></li>
- *   <li><a href="http://web.archive.org/web/20170303000822/http://netghost.narod.ru/gff/graphics/summary/micbmp.htm">Graphics File Formats encyclopedia Windows bitmap description</a></li>
- *   <li><a href="https://web.archive.org/web/20170302205330/http://netghost.narod.ru/gff/graphics/summary/os2bmp.htm">Graphics File Formats encyclopedia OS/2 bitmap description</a></li>
- *   <li><a href="https://web.archive.org/web/20170302205457/http://www.fileformat.info/format/os2bmp/spec/902d5c253f2a43ada39c2b81034f27fd/view.htm">OS/2 bitmap specification</a></li>
- *   <li><a href="https://msdn.microsoft.com/en-us/library/dd183392(v=vs.85).aspx">Microsoft Bitmap Structures</a></li>
+ * <li><a href="https://web.archive.org/web/20170302205626/http://fileformats.archiveteam.org/wiki/BMP">Fileformats Wiki BMP overview</a></li>
+ * <li><a href="http://web.archive.org/web/20170303000822/http://netghost.narod.ru/gff/graphics/summary/micbmp.htm">Graphics File Formats encyclopedia Windows bitmap description</a></li>
+ * <li><a href="https://web.archive.org/web/20170302205330/http://netghost.narod.ru/gff/graphics/summary/os2bmp.htm">Graphics File Formats encyclopedia OS/2 bitmap description</a></li>
+ * <li><a href="https://web.archive.org/web/20170302205457/http://www.fileformat.info/format/os2bmp/spec/902d5c253f2a43ada39c2b81034f27fd/view.htm">OS/2 bitmap specification</a></li>
+ * <li><a href="https://msdn.microsoft.com/en-us/library/dd183392(v=vs.85).aspx">Microsoft Bitmap Structures</a></li>
  * </ul>
  *
  * @author Drew Noakes https://drewnoakes.com
  * @author Nadahar
  */
-public class BmpReader
-{
+public class BmpReader {
     // Possible "magic bytes" indicating bitmap type:
     /**
      * "BM" - Windows or OS/2 bitmap
@@ -76,8 +75,7 @@ public class BmpReader
      */
     public static final int OS2_POINTER = 0x5450;
 
-    public void extract(@NotNull final SequentialReader reader, final @NotNull Metadata metadata)
-    {
+    public void extract(@NotNull final SequentialReader reader, final @NotNull Metadata metadata) {
         reader.setMotorolaByteOrder(false);
 
         // BITMAP INFORMATION HEADER
@@ -161,7 +159,7 @@ public class BmpReader
             }
         } catch (IOException e) {
             if (directory == null) {
-                 addError("Unable to read BMP file header", metadata);
+                addError("Unable to read BMP file header", metadata);
             } else {
                 directory.addError("Unable to read BMP file header");
             }
@@ -312,9 +310,9 @@ public class BmpReader
                     directory.setInt(BmpHeaderDirectory.TAG_PALETTE_COLOUR_COUNT, reader.getInt32());
                     directory.setInt(BmpHeaderDirectory.TAG_IMPORTANT_COLOUR_COUNT, reader.getInt32());
                     reader.skip(
-                        2 + // Skip Units, can only be 0 (pixels per meter)
-                        2 + // Skip padding
-                        2   // Skip Recording, can only be 0 (left to right, bottom to top)
+                            2 + // Skip Units, can only be 0 (pixels per meter)
+                                    2 + // Skip padding
+                                    2   // Skip Recording, can only be 0 (left to right, bottom to top)
                     );
                     directory.setInt(BmpHeaderDirectory.TAG_RENDERING, reader.getUInt16());
                     reader.skip(4 + 4); // Skip Size1 and Size2
@@ -322,9 +320,9 @@ public class BmpReader
                     reader.skip(4); // Skip Identifier
                 }
             } else if (
-                headerSize == 40 || headerSize == 52 || headerSize == 56 ||
-                headerSize == 108 || headerSize == 124
-            ) { // BITMAPINFOHEADER V1-5
+                    headerSize == 40 || headerSize == 52 || headerSize == 56 ||
+                            headerSize == 108 || headerSize == 124
+                    ) { // BITMAPINFOHEADER V1-5
                 directory.setInt(BmpHeaderDirectory.TAG_IMAGE_WIDTH, reader.getInt32());
                 directory.setInt(BmpHeaderDirectory.TAG_IMAGE_HEIGHT, reader.getInt32());
                 directory.setInt(BmpHeaderDirectory.TAG_COLOUR_PLANES, reader.getUInt16());
@@ -375,9 +373,9 @@ public class BmpReader
                     }
                 } else {
                     reader.skip(
-                        4 + // Skip ProfileData offset
-                        4 + // Skip ProfileSize
-                        4   // Skip Reserved
+                            4 + // Skip ProfileData offset
+                                    4 + // Skip ProfileSize
+                                    4   // Skip Reserved
                     );
                 }
             } else {

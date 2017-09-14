@@ -42,11 +42,12 @@ import java.util.regex.Pattern;
  * @author Drew Noakes https://drewnoakes.com
  */
 @java.lang.SuppressWarnings("WeakerAccess")
-public abstract class Directory
-{
+public abstract class Directory {
     private static final String _floatFormatPattern = "0.###";
 
-    /** Map of values hashed by type identifiers. */
+    /**
+     * Map of values hashed by type identifiers.
+     */
     @NotNull
     protected final Map<Integer, Object> _tagMap = new HashMap<Integer, Object>();
 
@@ -61,7 +62,9 @@ public abstract class Directory
     @NotNull
     private final Collection<String> _errorList = new ArrayList<String>(4);
 
-    /** The descriptor used to interpret tag values. */
+    /**
+     * The descriptor used to interpret tag values.
+     */
     protected TagDescriptor _descriptor;
 
     @Nullable
@@ -85,16 +88,15 @@ public abstract class Directory
     @NotNull
     protected abstract HashMap<Integer, String> getTagNameMap();
 
-    protected Directory()
-    {}
+    protected Directory() {
+    }
 
 // VARIOUS METHODS
 
     /**
      * Gets a value indicating whether the directory is empty, meaning it contains no errors and no tag values.
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return _errorList.isEmpty() && _definedTagList.isEmpty();
     }
 
@@ -104,9 +106,8 @@ public abstract class Directory
      * @param tagType the tag type to check for
      * @return true if a value exists for the specified tag type, false if not
      */
-    @java.lang.SuppressWarnings({ "UnnecessaryBoxing" })
-    public boolean containsTag(int tagType)
-    {
+    @java.lang.SuppressWarnings({"UnnecessaryBoxing"})
+    public boolean containsTag(int tagType) {
         return _tagMap.containsKey(Integer.valueOf(tagType));
     }
 
@@ -116,8 +117,7 @@ public abstract class Directory
      * @return an Iterator of Tag instances
      */
     @NotNull
-    public Collection<Tag> getTags()
-    {
+    public Collection<Tag> getTags() {
         return Collections.unmodifiableCollection(_definedTagList);
     }
 
@@ -126,8 +126,7 @@ public abstract class Directory
      *
      * @return the number of tags set in this Directory
      */
-    public int getTagCount()
-    {
+    public int getTagCount() {
         return _definedTagList.size();
     }
 
@@ -136,9 +135,8 @@ public abstract class Directory
      *
      * @param descriptor the descriptor used to interpret tag values
      */
-    @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setDescriptor(@NotNull TagDescriptor descriptor)
-    {
+    @java.lang.SuppressWarnings({"ConstantConditions"})
+    public void setDescriptor(@NotNull TagDescriptor descriptor) {
         if (descriptor == null)
             throw new NullPointerException("cannot set a null descriptor");
         _descriptor = descriptor;
@@ -149,8 +147,7 @@ public abstract class Directory
      *
      * @param message an error message.
      */
-    public void addError(@NotNull String message)
-    {
+    public void addError(@NotNull String message) {
         _errorList.add(message);
     }
 
@@ -159,8 +156,7 @@ public abstract class Directory
      *
      * @return true if the directory contains errors, otherwise false
      */
-    public boolean hasErrors()
-    {
+    public boolean hasErrors() {
         return _errorList.size() > 0;
     }
 
@@ -170,25 +166,23 @@ public abstract class Directory
      * @return an iterable collection of error message strings.
      */
     @NotNull
-    public Iterable<String> getErrors()
-    {
+    public Iterable<String> getErrors() {
         return Collections.unmodifiableCollection(_errorList);
     }
 
-    /** Returns the count of error messages in this directory. */
-    public int getErrorCount()
-    {
+    /**
+     * Returns the count of error messages in this directory.
+     */
+    public int getErrorCount() {
         return _errorList.size();
     }
 
     @Nullable
-    public Directory getParent()
-    {
+    public Directory getParent() {
         return _parent;
     }
 
-    public void setParent(@NotNull Directory parent)
-    {
+    public void setParent(@NotNull Directory parent) {
         _parent = parent;
     }
 
@@ -200,8 +194,7 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as an int
      */
-    public void setInt(int tagType, int value)
-    {
+    public void setInt(int tagType, int value) {
         setObject(tagType, value);
     }
 
@@ -211,8 +204,7 @@ public abstract class Directory
      * @param tagType the tag identifier
      * @param ints    the int array to store
      */
-    public void setIntArray(int tagType, @NotNull int[] ints)
-    {
+    public void setIntArray(int tagType, @NotNull int[] ints) {
         setObjectArray(tagType, ints);
     }
 
@@ -222,8 +214,7 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a float
      */
-    public void setFloat(int tagType, float value)
-    {
+    public void setFloat(int tagType, float value) {
         setObject(tagType, value);
     }
 
@@ -233,8 +224,7 @@ public abstract class Directory
      * @param tagType the tag identifier
      * @param floats  the float array to store
      */
-    public void setFloatArray(int tagType, @NotNull float[] floats)
-    {
+    public void setFloatArray(int tagType, @NotNull float[] floats) {
         setObjectArray(tagType, floats);
     }
 
@@ -244,8 +234,7 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a double
      */
-    public void setDouble(int tagType, double value)
-    {
+    public void setDouble(int tagType, double value) {
         setObject(tagType, value);
     }
 
@@ -255,8 +244,7 @@ public abstract class Directory
      * @param tagType the tag identifier
      * @param doubles the double array to store
      */
-    public void setDoubleArray(int tagType, @NotNull double[] doubles)
-    {
+    public void setDoubleArray(int tagType, @NotNull double[] doubles) {
         setObjectArray(tagType, doubles);
     }
 
@@ -266,9 +254,8 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a StringValue
      */
-    @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setStringValue(int tagType, @NotNull StringValue value)
-    {
+    @java.lang.SuppressWarnings({"ConstantConditions"})
+    public void setStringValue(int tagType, @NotNull StringValue value) {
         if (value == null)
             throw new NullPointerException("cannot set a null StringValue");
         setObject(tagType, value);
@@ -280,9 +267,8 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a String
      */
-    @java.lang.SuppressWarnings({ "ConstantConditions" })
-    public void setString(int tagType, @NotNull String value)
-    {
+    @java.lang.SuppressWarnings({"ConstantConditions"})
+    public void setString(int tagType, @NotNull String value) {
         if (value == null)
             throw new NullPointerException("cannot set a null String");
         setObject(tagType, value);
@@ -294,8 +280,7 @@ public abstract class Directory
      * @param tagType the tag identifier
      * @param strings the String array to store
      */
-    public void setStringArray(int tagType, @NotNull String[] strings)
-    {
+    public void setStringArray(int tagType, @NotNull String[] strings) {
         setObjectArray(tagType, strings);
     }
 
@@ -305,8 +290,7 @@ public abstract class Directory
      * @param tagType the tag identifier
      * @param strings the StringValue array to store
      */
-    public void setStringValueArray(int tagType, @NotNull StringValue[] strings)
-    {
+    public void setStringValueArray(int tagType, @NotNull StringValue[] strings) {
         setObjectArray(tagType, strings);
     }
 
@@ -316,8 +300,7 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a boolean
      */
-    public void setBoolean(int tagType, boolean value)
-    {
+    public void setBoolean(int tagType, boolean value) {
         setObject(tagType, value);
     }
 
@@ -327,8 +310,7 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a long
      */
-    public void setLong(int tagType, long value)
-    {
+    public void setLong(int tagType, long value) {
         setObject(tagType, value);
     }
 
@@ -338,8 +320,7 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param value   the value for the specified tag as a java.util.Date
      */
-    public void setDate(int tagType, @NotNull Date value)
-    {
+    public void setDate(int tagType, @NotNull Date value) {
         setObject(tagType, value);
     }
 
@@ -349,8 +330,7 @@ public abstract class Directory
      * @param tagType  the tag's value as an int
      * @param rational rational number
      */
-    public void setRational(int tagType, @NotNull Rational rational)
-    {
+    public void setRational(int tagType, @NotNull Rational rational) {
         setObject(tagType, rational);
     }
 
@@ -360,8 +340,7 @@ public abstract class Directory
      * @param tagType   the tag identifier
      * @param rationals the Rational array to store
      */
-    public void setRationalArray(int tagType, @NotNull Rational[] rationals)
-    {
+    public void setRationalArray(int tagType, @NotNull Rational[] rationals) {
         setObjectArray(tagType, rationals);
     }
 
@@ -371,8 +350,7 @@ public abstract class Directory
      * @param tagType the tag identifier
      * @param bytes   the byte array to store
      */
-    public void setByteArray(int tagType, @NotNull byte[] bytes)
-    {
+    public void setByteArray(int tagType, @NotNull byte[] bytes) {
         setObjectArray(tagType, bytes);
     }
 
@@ -383,9 +361,8 @@ public abstract class Directory
      * @param value   the value for the specified tag
      * @throws NullPointerException if value is <code>null</code>
      */
-    @java.lang.SuppressWarnings( { "ConstantConditions", "UnnecessaryBoxing" })
-    public void setObject(int tagType, @NotNull Object value)
-    {
+    @java.lang.SuppressWarnings({"ConstantConditions", "UnnecessaryBoxing"})
+    public void setObject(int tagType, @NotNull Object value) {
         if (value == null)
             throw new NullPointerException("cannot set a null object");
 
@@ -406,8 +383,7 @@ public abstract class Directory
      * @param tagType the tag's value as an int
      * @param array   the array of values for the specified tag
      */
-    public void setObjectArray(int tagType, @NotNull Object array)
-    {
+    public void setObjectArray(int tagType, @NotNull Object array) {
         // for now, we don't do anything special -- this method might be a candidate for removal once the dust settles
         setObject(tagType, array);
     }
@@ -429,10 +405,9 @@ public abstract class Directory
      *
      * @throws MetadataException if no value exists for tagType or if it cannot be converted to an int.
      */
-    public int getInt(int tagType) throws MetadataException
-    {
+    public int getInt(int tagType) throws MetadataException {
         Integer integer = getInteger(tagType);
-        if (integer!=null)
+        if (integer != null)
             return integer;
 
         Object o = getObject(tagType);
@@ -453,19 +428,18 @@ public abstract class Directory
      * <li> byte[] - Return int value of first item in array if length &gt; 0
      * <li> int[] - Return int value of first item in array if length &gt; 0
      * </ul>
-     *
+     * <p>
      * If the value is not found or cannot be converted to int, <code>null</code> is returned.
      */
     @Nullable
-    public Integer getInteger(int tagType)
-    {
+    public Integer getInteger(int tagType) {
         Object o = getObject(tagType);
 
         if (o == null)
             return null;
 
         if (o instanceof Number) {
-            return ((Number)o).intValue();
+            return ((Number) o).intValue();
         } else if (o instanceof String || o instanceof StringValue) {
             try {
                 return Integer.parseInt(o.toString());
@@ -478,24 +452,24 @@ public abstract class Directory
                     val = val << 8;
                     val += (aByte & 0xff);
                 }
-                return (int)val;
+                return (int) val;
             }
         } else if (o instanceof Rational[]) {
-            Rational[] rationals = (Rational[])o;
+            Rational[] rationals = (Rational[]) o;
             if (rationals.length == 1)
                 return rationals[0].intValue();
         } else if (o instanceof byte[]) {
-            byte[] bytes = (byte[])o;
+            byte[] bytes = (byte[]) o;
             if (bytes.length == 1)
-                return (int)bytes[0];
+                return (int) bytes[0];
         } else if (o instanceof int[]) {
-            int[] ints = (int[])o;
+            int[] ints = (int[]) o;
             if (ints.length == 1)
                 return ints[0];
         } else if (o instanceof short[]) {
-            short[] shorts = (short[])o;
+            short[] shorts = (short[]) o;
             if (shorts.length == 1)
-                return (int)shorts[0];
+                return (int) shorts[0];
         }
         return null;
     }
@@ -508,40 +482,39 @@ public abstract class Directory
      * @return the tag's value as an array of Strings. If the value is unset or cannot be converted, <code>null</code> is returned.
      */
     @Nullable
-    public String[] getStringArray(int tagType)
-    {
+    public String[] getStringArray(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
         if (o instanceof String[])
-            return (String[])o;
+            return (String[]) o;
         if (o instanceof String)
-            return new String[] { (String)o };
+            return new String[]{(String) o};
         if (o instanceof StringValue)
-            return new String[] { o.toString() };
+            return new String[]{o.toString()};
         if (o instanceof StringValue[]) {
-            StringValue[] stringValues = (StringValue[])o;
+            StringValue[] stringValues = (StringValue[]) o;
             String[] strings = new String[stringValues.length];
             for (int i = 0; i < strings.length; i++)
                 strings[i] = stringValues[i].toString();
             return strings;
         }
         if (o instanceof int[]) {
-            int[] ints = (int[])o;
+            int[] ints = (int[]) o;
             String[] strings = new String[ints.length];
             for (int i = 0; i < strings.length; i++)
                 strings[i] = Integer.toString(ints[i]);
             return strings;
         }
         if (o instanceof byte[]) {
-            byte[] bytes = (byte[])o;
+            byte[] bytes = (byte[]) o;
             String[] strings = new String[bytes.length];
             for (int i = 0; i < strings.length; i++)
                 strings[i] = Byte.toString(bytes[i]);
             return strings;
         }
         if (o instanceof Rational[]) {
-            Rational[] rationals = (Rational[])o;
+            Rational[] rationals = (Rational[]) o;
             String[] strings = new String[rationals.length];
             for (int i = 0; i < strings.length; i++)
                 strings[i] = rationals[i].toSimpleString(false);
@@ -558,15 +531,14 @@ public abstract class Directory
      * @return the tag's value as an array of StringValues. If the value is unset or cannot be converted, <code>null</code> is returned.
      */
     @Nullable
-    public StringValue[] getStringValueArray(int tagType)
-    {
+    public StringValue[] getStringValueArray(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
         if (o instanceof StringValue[])
-            return (StringValue[])o;
+            return (StringValue[]) o;
         if (o instanceof StringValue)
-            return new StringValue[] {(StringValue) o};
+            return new StringValue[]{(StringValue) o};
         return null;
     }
 
@@ -578,15 +550,14 @@ public abstract class Directory
      * @return the tag's value as an int array
      */
     @Nullable
-    public int[] getIntArray(int tagType)
-    {
+    public int[] getIntArray(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
         if (o instanceof int[])
-            return (int[])o;
+            return (int[]) o;
         if (o instanceof Rational[]) {
-            Rational[] rationals = (Rational[])o;
+            Rational[] rationals = (Rational[]) o;
             int[] ints = new int[rationals.length];
             for (int i = 0; i < ints.length; i++) {
                 ints[i] = rationals[i].intValue();
@@ -594,7 +565,7 @@ public abstract class Directory
             return ints;
         }
         if (o instanceof short[]) {
-            short[] shorts = (short[])o;
+            short[] shorts = (short[]) o;
             int[] ints = new int[shorts.length];
             for (int i = 0; i < shorts.length; i++) {
                 ints[i] = shorts[i];
@@ -602,7 +573,7 @@ public abstract class Directory
             return ints;
         }
         if (o instanceof byte[]) {
-            byte[] bytes = (byte[])o;
+            byte[] bytes = (byte[]) o;
             int[] ints = new int[bytes.length];
             for (int i = 0; i < bytes.length; i++) {
                 ints[i] = bytes[i];
@@ -610,7 +581,7 @@ public abstract class Directory
             return ints;
         }
         if (o instanceof CharSequence) {
-            CharSequence str = (CharSequence)o;
+            CharSequence str = (CharSequence) o;
             int[] ints = new int[str.length()];
             for (int i = 0; i < str.length(); i++) {
                 ints[i] = str.charAt(i);
@@ -618,7 +589,7 @@ public abstract class Directory
             return ints;
         }
         if (o instanceof Integer)
-            return new int[] { (Integer)o };
+            return new int[]{(Integer) o};
 
         return null;
     }
@@ -631,65 +602,67 @@ public abstract class Directory
      * @return the tag's value as a byte array
      */
     @Nullable
-    public byte[] getByteArray(int tagType)
-    {
+    public byte[] getByteArray(int tagType) {
         Object o = getObject(tagType);
         if (o == null) {
             return null;
         } else if (o instanceof StringValue) {
-            return ((StringValue)o).getBytes();
+            return ((StringValue) o).getBytes();
         } else if (o instanceof Rational[]) {
-            Rational[] rationals = (Rational[])o;
+            Rational[] rationals = (Rational[]) o;
             byte[] bytes = new byte[rationals.length];
             for (int i = 0; i < bytes.length; i++) {
                 bytes[i] = rationals[i].byteValue();
             }
             return bytes;
         } else if (o instanceof byte[]) {
-            return (byte[])o;
+            return (byte[]) o;
         } else if (o instanceof int[]) {
-            int[] ints = (int[])o;
+            int[] ints = (int[]) o;
             byte[] bytes = new byte[ints.length];
             for (int i = 0; i < ints.length; i++) {
-                bytes[i] = (byte)ints[i];
+                bytes[i] = (byte) ints[i];
             }
             return bytes;
         } else if (o instanceof short[]) {
-            short[] shorts = (short[])o;
+            short[] shorts = (short[]) o;
             byte[] bytes = new byte[shorts.length];
             for (int i = 0; i < shorts.length; i++) {
-                bytes[i] = (byte)shorts[i];
+                bytes[i] = (byte) shorts[i];
             }
             return bytes;
         } else if (o instanceof CharSequence) {
-            CharSequence str = (CharSequence)o;
+            CharSequence str = (CharSequence) o;
             byte[] bytes = new byte[str.length()];
             for (int i = 0; i < str.length(); i++) {
-                bytes[i] = (byte)str.charAt(i);
+                bytes[i] = (byte) str.charAt(i);
             }
             return bytes;
         }
         if (o instanceof Integer)
-            return new byte[] { ((Integer)o).byteValue() };
+            return new byte[]{((Integer) o).byteValue()};
 
         return null;
     }
 
-    /** Returns the specified tag's value as a double, if possible. */
-    public double getDouble(int tagType) throws MetadataException
-    {
+    /**
+     * Returns the specified tag's value as a double, if possible.
+     */
+    public double getDouble(int tagType) throws MetadataException {
         Double value = getDoubleObject(tagType);
-        if (value!=null)
+        if (value != null)
             return value;
         Object o = getObject(tagType);
         if (o == null)
             throw new MetadataException("Tag '" + getTagName(tagType) + "' has not been set -- check using containsTag() first");
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a double.  It is of type '" + o.getClass() + "'.");
     }
-    /** Returns the specified tag's value as a Double.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
+
+    /**
+     * Returns the specified tag's value as a Double.  If the tag is not set or cannot be converted, <code>null</code> is returned.
+     */
     @Nullable
-    public Double getDoubleObject(int tagType)
-    {
+    public Double getDoubleObject(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
@@ -701,16 +674,17 @@ public abstract class Directory
             }
         }
         if (o instanceof Number)
-            return ((Number)o).doubleValue();
+            return ((Number) o).doubleValue();
 
         return null;
     }
 
-    /** Returns the specified tag's value as a float, if possible. */
-    public float getFloat(int tagType) throws MetadataException
-    {
+    /**
+     * Returns the specified tag's value as a float, if possible.
+     */
+    public float getFloat(int tagType) throws MetadataException {
         Float value = getFloatObject(tagType);
-        if (value!=null)
+        if (value != null)
             return value;
         Object o = getObject(tagType);
         if (o == null)
@@ -718,10 +692,11 @@ public abstract class Directory
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a float.  It is of type '" + o.getClass() + "'.");
     }
 
-    /** Returns the specified tag's value as a float.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
+    /**
+     * Returns the specified tag's value as a float.  If the tag is not set or cannot be converted, <code>null</code> is returned.
+     */
     @Nullable
-    public Float getFloatObject(int tagType)
-    {
+    public Float getFloatObject(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
@@ -733,13 +708,14 @@ public abstract class Directory
             }
         }
         if (o instanceof Number)
-            return ((Number)o).floatValue();
+            return ((Number) o).floatValue();
         return null;
     }
 
-    /** Returns the specified tag's value as a long, if possible. */
-    public long getLong(int tagType) throws MetadataException
-    {
+    /**
+     * Returns the specified tag's value as a long, if possible.
+     */
+    public long getLong(int tagType) throws MetadataException {
         Long value = getLongObject(tagType);
         if (value != null)
             return value;
@@ -749,10 +725,11 @@ public abstract class Directory
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a long.  It is of type '" + o.getClass() + "'.");
     }
 
-    /** Returns the specified tag's value as a long.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
+    /**
+     * Returns the specified tag's value as a long.  If the tag is not set or cannot be converted, <code>null</code> is returned.
+     */
     @Nullable
-    public Long getLongObject(int tagType)
-    {
+    public Long getLongObject(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
@@ -764,13 +741,14 @@ public abstract class Directory
             }
         }
         if (o instanceof Number)
-            return ((Number)o).longValue();
+            return ((Number) o).longValue();
         return null;
     }
 
-    /** Returns the specified tag's value as a boolean, if possible. */
-    public boolean getBoolean(int tagType) throws MetadataException
-    {
+    /**
+     * Returns the specified tag's value as a boolean, if possible.
+     */
+    public boolean getBoolean(int tagType) throws MetadataException {
         Boolean value = getBooleanObject(tagType);
         if (value != null)
             return value;
@@ -780,16 +758,17 @@ public abstract class Directory
         throw new MetadataException("Tag '" + tagType + "' cannot be converted to a boolean.  It is of type '" + o.getClass() + "'.");
     }
 
-    /** Returns the specified tag's value as a boolean.  If the tag is not set or cannot be converted, <code>null</code> is returned. */
+    /**
+     * Returns the specified tag's value as a boolean.  If the tag is not set or cannot be converted, <code>null</code> is returned.
+     */
     @Nullable
     @SuppressWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "keep API interface consistent")
-    public Boolean getBooleanObject(int tagType)
-    {
+    public Boolean getBooleanObject(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
         if (o instanceof Boolean)
-            return (Boolean)o;
+            return (Boolean) o;
         if (o instanceof String || o instanceof StringValue) {
             try {
                 return Boolean.getBoolean(o.toString());
@@ -798,7 +777,7 @@ public abstract class Directory
             }
         }
         if (o instanceof Number)
-            return (((Number)o).doubleValue() != 0);
+            return (((Number) o).doubleValue() != 0);
         return null;
     }
 
@@ -809,8 +788,7 @@ public abstract class Directory
      * the GMT {@link TimeZone}.  If the {@link TimeZone} is known, call the overload that accepts one as an argument.
      */
     @Nullable
-    public Date getDate(int tagType)
-    {
+    public Date getDate(int tagType) {
         return getDate(tagType, null, null);
     }
 
@@ -822,8 +800,7 @@ public abstract class Directory
      * is only considered if the underlying value is a string and it has no time zone information, otherwise it has no effect.
      */
     @Nullable
-    public Date getDate(int tagType, @Nullable TimeZone timeZone)
-    {
+    public Date getDate(int tagType, @Nullable TimeZone timeZone) {
         return getDate(tagType, null, timeZone);
     }
 
@@ -837,18 +814,17 @@ public abstract class Directory
      * is set to the returned Date. This parameter is only considered if the underlying value is a string and is has
      * no subsecond information, otherwise it has no effect.
      *
-     * @param tagType the tag identifier
+     * @param tagType   the tag identifier
      * @param subsecond the subsecond value for the Date
-     * @param timeZone the time zone to use
+     * @param timeZone  the time zone to use
      * @return a Date representing the time value
      */
     @Nullable
-    public Date getDate(int tagType, @Nullable String subsecond, @Nullable TimeZone timeZone)
-    {
+    public Date getDate(int tagType, @Nullable String subsecond, @Nullable TimeZone timeZone) {
         Object o = getObject(tagType);
 
         if (o instanceof Date)
-            return (Date)o;
+            return (Date) o;
 
         Date date = null;
 
@@ -867,7 +843,7 @@ public abstract class Directory
                     "yyyy-MM-dd",
                     "yyyy-MM",
                     "yyyyMMdd", // as used in IPTC data
-                    "yyyy" };
+                    "yyyy"};
 
             String dateString = o.toString();
 
@@ -923,37 +899,39 @@ public abstract class Directory
         }
     }
 
-    /** Returns the specified tag's value as a Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
+    /**
+     * Returns the specified tag's value as a Rational.  If the value is unset or cannot be converted, <code>null</code> is returned.
+     */
     @Nullable
-    public Rational getRational(int tagType)
-    {
+    public Rational getRational(int tagType) {
         Object o = getObject(tagType);
 
         if (o == null)
             return null;
 
         if (o instanceof Rational)
-            return (Rational)o;
+            return (Rational) o;
         if (o instanceof Integer)
-            return new Rational((Integer)o, 1);
+            return new Rational((Integer) o, 1);
         if (o instanceof Long)
-            return new Rational((Long)o, 1);
+            return new Rational((Long) o, 1);
 
         // NOTE not doing conversions for real number types
 
         return null;
     }
 
-    /** Returns the specified tag's value as an array of Rational.  If the value is unset or cannot be converted, <code>null</code> is returned. */
+    /**
+     * Returns the specified tag's value as an array of Rational.  If the value is unset or cannot be converted, <code>null</code> is returned.
+     */
     @Nullable
-    public Rational[] getRationalArray(int tagType)
-    {
+    public Rational[] getRationalArray(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
 
         if (o instanceof Rational[])
-            return (Rational[])o;
+            return (Rational[]) o;
 
         return null;
     }
@@ -963,17 +941,16 @@ public abstract class Directory
      * of this value may be obtained from the corresponding Descriptor.
      *
      * @return the String representation of the tag's value, or
-     *         <code>null</code> if the tag hasn't been defined.
+     * <code>null</code> if the tag hasn't been defined.
      */
     @Nullable
-    public String getString(int tagType)
-    {
+    public String getString(int tagType) {
         Object o = getObject(tagType);
         if (o == null)
             return null;
 
         if (o instanceof Rational)
-            return ((Rational)o).toSimpleString(true);
+            return ((Rational) o).toSimpleString(true);
 
         if (o.getClass().isArray()) {
             // handle arrays of objects and primitives
@@ -1033,10 +1010,10 @@ public abstract class Directory
         }
 
         if (o instanceof Double)
-            return new DecimalFormat(_floatFormatPattern).format(((Double)o).doubleValue());
+            return new DecimalFormat(_floatFormatPattern).format(((Double) o).doubleValue());
 
         if (o instanceof Float)
-            return new DecimalFormat(_floatFormatPattern).format(((Float)o).floatValue());
+            return new DecimalFormat(_floatFormatPattern).format(((Float) o).floatValue());
 
         // Note that several cameras leave trailing spaces (Olympus, Nikon) but this library is intended to show
         // the actual data within the file.  It is not inconceivable that whitespace may be significant here, so we
@@ -1046,10 +1023,9 @@ public abstract class Directory
     }
 
     @Nullable
-    public String getString(int tagType, String charset)
-    {
+    public String getString(int tagType, String charset) {
         byte[] bytes = getByteArray(tagType);
-        if (bytes==null)
+        if (bytes == null)
             return null;
         try {
             return new String(bytes, charset);
@@ -1059,11 +1035,10 @@ public abstract class Directory
     }
 
     @Nullable
-    public StringValue getStringValue(int tagType)
-    {
+    public StringValue getStringValue(int tagType) {
         Object o = getObject(tagType);
         if (o instanceof StringValue)
-            return (StringValue)o;
+            return (StringValue) o;
         return null;
     }
 
@@ -1073,10 +1048,9 @@ public abstract class Directory
      * @param tagType the tag type identifier
      * @return the tag's value as an Object if available, else <code>null</code>
      */
-    @java.lang.SuppressWarnings({ "UnnecessaryBoxing" })
+    @java.lang.SuppressWarnings({"UnnecessaryBoxing"})
     @Nullable
-    public Object getObject(int tagType)
-    {
+    public Object getObject(int tagType) {
         return _tagMap.get(Integer.valueOf(tagType));
     }
 
@@ -1089,8 +1063,7 @@ public abstract class Directory
      * @return the tag's name as a String
      */
     @NotNull
-    public String getTagName(int tagType)
-    {
+    public String getTagName(int tagType) {
         HashMap<Integer, String> nameMap = getTagNameMap();
         if (!nameMap.containsKey(tagType)) {
             String hex = Integer.toHexString(tagType);
@@ -1108,8 +1081,7 @@ public abstract class Directory
      * @param tagType the tag type identifier
      * @return whether this directory has a name for the specified tag
      */
-    public boolean hasTagName(int tagType)
-    {
+    public boolean hasTagName(int tagType) {
         return getTagNameMap().containsKey(tagType);
     }
 
@@ -1121,20 +1093,18 @@ public abstract class Directory
      * @return the tag value's description as a String
      */
     @Nullable
-    public String getDescription(int tagType)
-    {
-        assert(_descriptor != null);
+    public String getDescription(int tagType) {
+        assert (_descriptor != null);
         return _descriptor.getDescription(tagType);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s Directory (%d %s)",
-            getName(),
-            _tagMap.size(),
-            _tagMap.size() == 1
-                ? "tag"
-                : "tags");
+                getName(),
+                _tagMap.size(),
+                _tagMap.size() == 1
+                        ? "tag"
+                        : "tags");
     }
 }

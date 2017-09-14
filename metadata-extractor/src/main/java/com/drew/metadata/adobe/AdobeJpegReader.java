@@ -39,26 +39,22 @@ import java.util.Collections;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class AdobeJpegReader implements JpegSegmentMetadataReader
-{
+public class AdobeJpegReader implements JpegSegmentMetadataReader {
     public static final String PREAMBLE = "Adobe";
 
     @NotNull
-    public Iterable<JpegSegmentType> getSegmentTypes()
-    {
+    public Iterable<JpegSegmentType> getSegmentTypes() {
         return Collections.singletonList(JpegSegmentType.APPE);
     }
 
-    public void readJpegSegments(@NotNull Iterable<byte[]> segments, @NotNull Metadata metadata, @NotNull JpegSegmentType segmentType)
-    {
+    public void readJpegSegments(@NotNull Iterable<byte[]> segments, @NotNull Metadata metadata, @NotNull JpegSegmentType segmentType) {
         for (byte[] bytes : segments) {
             if (bytes.length == 12 && PREAMBLE.equalsIgnoreCase(new String(bytes, 0, PREAMBLE.length())))
                 extract(new SequentialByteArrayReader(bytes), metadata);
         }
     }
 
-    public void extract(@NotNull SequentialReader reader, @NotNull Metadata metadata)
-    {
+    public void extract(@NotNull SequentialReader reader, @NotNull Metadata metadata) {
         Directory directory = new AdobeJpegDirectory();
         metadata.addDirectory(directory);
 

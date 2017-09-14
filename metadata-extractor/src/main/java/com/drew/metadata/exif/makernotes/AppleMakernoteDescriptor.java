@@ -32,17 +32,14 @@ import com.drew.metadata.TagDescriptor;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class AppleMakernoteDescriptor extends TagDescriptor<AppleMakernoteDirectory>
-{
-    public AppleMakernoteDescriptor(@NotNull AppleMakernoteDirectory directory)
-    {
+public class AppleMakernoteDescriptor extends TagDescriptor<AppleMakernoteDirectory> {
+    public AppleMakernoteDescriptor(@NotNull AppleMakernoteDirectory directory) {
         super(directory);
     }
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
-    {
+    public String getDescription(int tagType) {
         switch (tagType) {
             case AppleMakernoteDirectory.TAG_HDR_IMAGE_TYPE:
                 return getHdrImageTypeDescription();
@@ -52,8 +49,7 @@ public class AppleMakernoteDescriptor extends TagDescriptor<AppleMakernoteDirect
     }
 
     @Nullable
-    public String getHdrImageTypeDescription()
-    {
+    public String getHdrImageTypeDescription() {
         return getIndexedDescription(AppleMakernoteDirectory.TAG_HDR_IMAGE_TYPE, 3, "HDR Image", "Original Image");
     }
 }

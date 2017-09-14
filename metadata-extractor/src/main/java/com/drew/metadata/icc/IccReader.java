@@ -47,18 +47,16 @@ import java.util.Collections;
  * @author Yuri Binev
  * @author Drew Noakes https://drewnoakes.com
  */
-public class IccReader implements JpegSegmentMetadataReader, MetadataReader
-{
+public class IccReader implements JpegSegmentMetadataReader, MetadataReader {
+
     public static final String JPEG_SEGMENT_PREAMBLE = "ICC_PROFILE";
 
     @NotNull
-    public Iterable<JpegSegmentType> getSegmentTypes()
-    {
+    public Iterable<JpegSegmentType> getSegmentTypes() {
         return Collections.singletonList(JpegSegmentType.APP2);
     }
 
-    public void readJpegSegments(@NotNull Iterable<byte[]> segments, @NotNull Metadata metadata, @NotNull JpegSegmentType segmentType)
-    {
+    public void readJpegSegments(@NotNull Iterable<byte[]> segments, @NotNull Metadata metadata, @NotNull JpegSegmentType segmentType) {
         final int preambleLength = JPEG_SEGMENT_PREAMBLE.length();
 
         // ICC data can be spread across multiple JPEG segments.
@@ -89,13 +87,11 @@ public class IccReader implements JpegSegmentMetadataReader, MetadataReader
             extract(new ByteArrayReader(buffer), metadata);
     }
 
-    public void extract(@NotNull final RandomAccessReader reader, @NotNull final Metadata metadata)
-    {
+    public void extract(@NotNull final RandomAccessReader reader, @NotNull final Metadata metadata) {
         extract(reader, metadata, null);
     }
 
-    public void extract(@NotNull final RandomAccessReader reader, @NotNull final Metadata metadata, @Nullable Directory parentDirectory)
-    {
+    public void extract(@NotNull final RandomAccessReader reader, @NotNull final Metadata metadata, @Nullable Directory parentDirectory) {
         // TODO review whether the 'tagPtr' values below really do require RandomAccessReader or whether SequentialReader may be used instead
 
         IccDirectory directory = new IccDirectory();
@@ -157,31 +153,27 @@ public class IccReader implements JpegSegmentMetadataReader, MetadataReader
         metadata.addDirectory(directory);
     }
 
-    private void set4ByteString(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException
-    {
+    private void set4ByteString(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException {
         int i = reader.getInt32(tagType);
         if (i != 0)
             directory.setString(tagType, getStringFromInt32(i));
     }
 
-    private void setInt32(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException
-    {
+    private void setInt32(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException {
         int i = reader.getInt32(tagType);
         if (i != 0)
             directory.setInt(tagType, i);
     }
 
     @SuppressWarnings({"SameParameterValue"})
-    private void setInt64(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException
-    {
+    private void setInt64(@NotNull Directory directory, int tagType, @NotNull RandomAccessReader reader) throws IOException {
         long l = reader.getInt64(tagType);
         if (l != 0)
             directory.setLong(tagType, l);
     }
 
     @SuppressWarnings({"SameParameterValue", "MagicConstant"})
-    private void setDate(@NotNull final IccDirectory directory, final int tagType, @NotNull RandomAccessReader reader) throws IOException
-    {
+    private void setDate(@NotNull final IccDirectory directory, final int tagType, @NotNull RandomAccessReader reader) throws IOException {
         final int y = reader.getUInt16(tagType);
         final int m = reader.getUInt16(tagType + 2);
         final int d = reader.getUInt16(tagType + 4);
@@ -189,24 +181,20 @@ public class IccReader implements JpegSegmentMetadataReader, MetadataReader
         final int M = reader.getUInt16(tagType + 8);
         final int s = reader.getUInt16(tagType + 10);
 
-        if (DateUtil.isValidDate(y, m - 1, d) && DateUtil.isValidTime(h, M, s))
-        {
+        if (DateUtil.isValidDate(y, m - 1, d) && DateUtil.isValidTime(h, M, s)) {
             String dateString = String.format("%04d:%02d:%02d %02d:%02d:%02d", y, m, d, h, M, s);
             directory.setString(tagType, dateString);
-        }
-        else
-        {
+        } else {
             directory.addError(String.format(
-                "ICC data describes an invalid date/time: year=%d month=%d day=%d hour=%d minute=%d second=%d",
-                y, m, d, h, M, s));
+                    "ICC data describes an invalid date/time: year=%d month=%d day=%d hour=%d minute=%d second=%d",
+                    y, m, d, h, M, s));
         }
     }
 
     @NotNull
-    public static String getStringFromInt32(int d)
-    {
+    public static String getStringFromInt32(int d) {
         // MSB
-        byte[] b = new byte[] {
+        byte[] b = new byte[]{
                 (byte) ((d & 0xFF000000) >> 24),
                 (byte) ((d & 0x00FF0000) >> 16),
                 (byte) ((d & 0x0000FF00) >> 8),

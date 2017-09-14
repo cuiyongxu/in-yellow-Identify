@@ -35,17 +35,14 @@ import static com.drew.metadata.exif.makernotes.CanonMakernoteDirectory.*;
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirectory>
-{
-    public CanonMakernoteDescriptor(@NotNull CanonMakernoteDirectory directory)
-    {
+public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirectory> {
+    public CanonMakernoteDescriptor(@NotNull CanonMakernoteDirectory directory) {
         super(directory);
     }
 
     @Override
     @Nullable
-    public String getDescription(int tagType)
-    {
+    public String getDescription(int tagType) {
         switch (tagType) {
             case TAG_CANON_SERIAL_NUMBER:
                 return getSerialNumberDescription();
@@ -163,8 +160,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getSerialNumberDescription()
-    {
+    public String getSerialNumberDescription() {
         // http://www.ozhiker.com/electronics/pjmt/jpeg_info/canon_mn.html
         Integer value = _directory.getInteger(TAG_CANON_SERIAL_NUMBER);
         if (value == null)
@@ -352,8 +348,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
 */
 
     @Nullable
-    public String getFlashBiasDescription()
-    {
+    public String getFlashBiasDescription() {
         Integer value = _directory.getInteger(FocalLength.TAG_FLASH_BIAS);
 
         if (value == null)
@@ -375,8 +370,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getAfPointUsedDescription()
-    {
+    public String getAfPointUsedDescription() {
         Integer value = _directory.getInteger(FocalLength.TAG_AF_POINT_USED);
         if (value == null)
             return null;
@@ -392,18 +386,15 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getTagAfPointsInFocus()
-    {
+    public String getTagAfPointsInFocus() {
         Integer value = _directory.getInteger(AFInfo.TAG_AF_POINTS_IN_FOCUS);
         if (value == null)
             return null;
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < 16; i++)
-        {
-            if ((value & 1 << i) != 0)
-            {
+        for (int i = 0; i < 16; i++) {
+            if ((value & 1 << i) != 0) {
                 if (sb.length() != 0)
                     sb.append(',');
                 sb.append(i);
@@ -414,29 +405,26 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getWhiteBalanceDescription()
-    {
+    public String getWhiteBalanceDescription() {
         return getIndexedDescription(
-            FocalLength.TAG_WHITE_BALANCE,
-            "Auto",
-            "Sunny",
-            "Cloudy",
-            "Tungsten",
-            "Florescent",
-            "Flash",
-            "Custom"
+                FocalLength.TAG_WHITE_BALANCE,
+                "Auto",
+                "Sunny",
+                "Cloudy",
+                "Tungsten",
+                "Florescent",
+                "Flash",
+                "Custom"
         );
     }
 
     @Nullable
-    public String getFocusMode2Description()
-    {
+    public String getFocusMode2Description() {
         return getIndexedDescription(CameraSettings.TAG_FOCUS_MODE_2, "Single", "Continuous");
     }
 
     @Nullable
-    public String getFlashDetailsDescription()
-    {
+    public String getFlashDetailsDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_FLASH_DETAILS);
         if (value == null)
             return null;
@@ -456,8 +444,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getFocalUnitsPerMillimetreDescription()
-    {
+    public String getFocalUnitsPerMillimetreDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_FOCAL_UNITS_PER_MM);
         if (value == null)
             return null;
@@ -469,8 +456,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getShortFocalLengthDescription()
-    {
+    public String getShortFocalLengthDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_SHORT_FOCAL_LENGTH);
         if (value == null)
             return null;
@@ -479,8 +465,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getLongFocalLengthDescription()
-    {
+    public String getLongFocalLengthDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_LONG_FOCAL_LENGTH);
         if (value == null)
             return null;
@@ -489,16 +474,15 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getExposureModeDescription()
-    {
+    public String getExposureModeDescription() {
         return getIndexedDescription(
-            CameraSettings.TAG_EXPOSURE_MODE,
-            "Easy shooting",
-            "Program",
-            "Tv-priority",
-            "Av-priority",
-            "Manual",
-            "A-DEP"
+                CameraSettings.TAG_EXPOSURE_MODE,
+                "Easy shooting",
+                "Program",
+                "Tv-priority",
+                "Av-priority",
+                "Manual",
+                "A-DEP"
         );
     }
 
@@ -509,13 +493,12 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
             return null;
 
         return _lensTypeById.containsKey(value)
-            ? _lensTypeById.get(value)
-            : String.format("Unknown (%d)", value);
+                ? _lensTypeById.get(value)
+                : String.format("Unknown (%d)", value);
     }
 
     @Nullable
-    public String getMaxApertureDescription()
-    {
+    public String getMaxApertureDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_MAX_APERTURE);
         if (value == null)
             return null;
@@ -525,8 +508,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getMinApertureDescription()
-    {
+    public String getMinApertureDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_MIN_APERTURE);
         if (value == null)
             return null;
@@ -536,34 +518,31 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getAfPointSelectedDescription()
-    {
+    public String getAfPointSelectedDescription() {
         return getIndexedDescription(
-            CameraSettings.TAG_AF_POINT_SELECTED,
-            0x3000,
-            "None (MF)",
-            "Auto selected",
-            "Right",
-            "Centre",
-            "Left"
+                CameraSettings.TAG_AF_POINT_SELECTED,
+                0x3000,
+                "None (MF)",
+                "Auto selected",
+                "Right",
+                "Centre",
+                "Left"
         );
     }
 
     @Nullable
-    public String getMeteringModeDescription()
-    {
+    public String getMeteringModeDescription() {
         return getIndexedDescription(
-            CameraSettings.TAG_METERING_MODE,
-            3,
-            "Evaluative",
-            "Partial",
-            "Centre weighted"
+                CameraSettings.TAG_METERING_MODE,
+                3,
+                "Evaluative",
+                "Partial",
+                "Centre weighted"
         );
     }
 
     @Nullable
-    public String getIsoDescription()
-    {
+    public String getIsoDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_ISO);
         if (value == null)
             return null;
@@ -592,8 +571,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getSharpnessDescription()
-    {
+    public String getSharpnessDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_SHARPNESS);
         if (value == null)
             return null;
@@ -610,8 +588,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getSaturationDescription()
-    {
+    public String getSaturationDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_SATURATION);
         if (value == null)
             return null;
@@ -628,8 +605,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getContrastDescription()
-    {
+    public String getContrastDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_CONTRAST);
         if (value == null)
             return null;
@@ -646,55 +622,51 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getEasyShootingModeDescription()
-    {
+    public String getEasyShootingModeDescription() {
         return getIndexedDescription(
-            CameraSettings.TAG_EASY_SHOOTING_MODE,
-            "Full auto",
-            "Manual",
-            "Landscape",
-            "Fast shutter",
-            "Slow shutter",
-            "Night",
-            "B&W",
-            "Sepia",
-            "Portrait",
-            "Sports",
-            "Macro / Closeup",
-            "Pan focus"
+                CameraSettings.TAG_EASY_SHOOTING_MODE,
+                "Full auto",
+                "Manual",
+                "Landscape",
+                "Fast shutter",
+                "Slow shutter",
+                "Night",
+                "B&W",
+                "Sepia",
+                "Portrait",
+                "Sports",
+                "Macro / Closeup",
+                "Pan focus"
         );
     }
 
     @Nullable
-    public String getImageSizeDescription()
-    {
+    public String getImageSizeDescription() {
         return getIndexedDescription(
-            CameraSettings.TAG_IMAGE_SIZE,
-            "Large",
-            "Medium",
-            "Small"
+                CameraSettings.TAG_IMAGE_SIZE,
+                "Large",
+                "Medium",
+                "Small"
         );
     }
 
     @Nullable
-    public String getFocusMode1Description()
-    {
+    public String getFocusMode1Description() {
         return getIndexedDescription(
-            CameraSettings.TAG_FOCUS_MODE_1,
-            "One-shot",
-            "AI Servo",
-            "AI Focus",
-            "Manual Focus",
-            // TODO should check field 32 here (FOCUS_MODE_2)
-            "Single",
-            "Continuous",
-            "Manual Focus"
+                CameraSettings.TAG_FOCUS_MODE_1,
+                "One-shot",
+                "AI Servo",
+                "AI Focus",
+                "Manual Focus",
+                // TODO should check field 32 here (FOCUS_MODE_2)
+                "Single",
+                "Continuous",
+                "Manual Focus"
         );
     }
 
     @Nullable
-    public String getContinuousDriveModeDescription()
-    {
+    public String getContinuousDriveModeDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_CONTINUOUS_DRIVE_MODE);
         if (value == null)
             return null;
@@ -710,8 +682,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getFlashModeDescription()
-    {
+    public String getFlashModeDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_FLASH_MODE);
         if (value == null)
             return null;
@@ -739,8 +710,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getSelfTimerDelayDescription()
-    {
+    public String getSelfTimerDelayDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_SELF_TIMER_DELAY);
         if (value == null)
             return null;
@@ -748,37 +718,32 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
             return "Self timer not used";
         } else {
             DecimalFormat format = new DecimalFormat("0.##");
-            return format.format((double)value * 0.1d) + " sec";
+            return format.format((double) value * 0.1d) + " sec";
         }
     }
 
     @Nullable
-    public String getMacroModeDescription()
-    {
+    public String getMacroModeDescription() {
         return getIndexedDescription(CameraSettings.TAG_MACRO_MODE, 1, "Macro", "Normal");
     }
 
     @Nullable
-    public String getQualityDescription()
-    {
+    public String getQualityDescription() {
         return getIndexedDescription(CameraSettings.TAG_QUALITY, 2, "Normal", "Fine", null, "Superfine");
     }
 
     @Nullable
-    public String getDigitalZoomDescription()
-    {
+    public String getDigitalZoomDescription() {
         return getIndexedDescription(CameraSettings.TAG_DIGITAL_ZOOM, "No digital zoom", "2x", "4x");
     }
 
     @Nullable
-    public String getRecordModeDescription()
-    {
+    public String getRecordModeDescription() {
         return getIndexedDescription(CameraSettings.TAG_RECORD_MODE, 1, "JPEG", "CRW+THM", "AVI+THM", "TIF", "TIF+JPEG", "CR2", "CR2+JPEG", null, "MOV", "MP4");
     }
 
     @Nullable
-    public String getFocusTypeDescription()
-    {
+    public String getFocusTypeDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_FOCUS_TYPE);
         if (value == null)
             return null;
@@ -797,28 +762,24 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getFlashActivityDescription()
-    {
+    public String getFlashActivityDescription() {
         return getIndexedDescription(CameraSettings.TAG_FLASH_ACTIVITY, "Flash did not fire", "Flash fired");
     }
 
     @Nullable
-    public String getFocusContinuousDescription()
-    {
+    public String getFocusContinuousDescription() {
         return getIndexedDescription(CameraSettings.TAG_FOCUS_CONTINUOUS, 0,
-            "Single", "Continuous", null, null, null, null, null, null, "Manual");
+                "Single", "Continuous", null, null, null, null, null, null, "Manual");
     }
 
     @Nullable
-    public String getAESettingDescription()
-    {
+    public String getAESettingDescription() {
         return getIndexedDescription(CameraSettings.TAG_AE_SETTING, 0,
-            "Normal AE", "Exposure Compensation", "AE Lock", "AE Lock + Exposure Comp.", "No AE");
+                "Normal AE", "Exposure Compensation", "AE Lock", "AE Lock + Exposure Comp.", "No AE");
     }
 
     @Nullable
-    public String getDisplayApertureDescription()
-    {
+    public String getDisplayApertureDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_DISPLAY_APERTURE);
         if (value == null)
             return null;
@@ -829,21 +790,18 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getSpotMeteringModeDescription()
-    {
+    public String getSpotMeteringModeDescription() {
         return getIndexedDescription(CameraSettings.TAG_SPOT_METERING_MODE, 0,
-            "Center", "AF Point");
+                "Center", "AF Point");
     }
 
     @Nullable
-    public String getPhotoEffectDescription()
-    {
+    public String getPhotoEffectDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_PHOTO_EFFECT);
         if (value == null)
             return null;
 
-        switch (value)
-        {
+        switch (value) {
             case 0:
                 return "Off";
             case 1:
@@ -866,14 +824,12 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getManualFlashOutputDescription()
-    {
+    public String getManualFlashOutputDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_MANUAL_FLASH_OUTPUT);
         if (value == null)
             return null;
 
-        switch (value)
-        {
+        switch (value) {
             case 0:
                 return "n/a";
             case 0x500:
@@ -890,8 +846,7 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getColorToneDescription()
-    {
+    public String getColorToneDescription() {
         Integer value = _directory.getInteger(CameraSettings.TAG_COLOR_TONE);
         if (value == null)
             return null;
@@ -900,29 +855,26 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
     }
 
     @Nullable
-    public String getSRawQualityDescription()
-    {
+    public String getSRawQualityDescription() {
         return getIndexedDescription(CameraSettings.TAG_SRAW_QUALITY, 0, "n/a", "sRAW1 (mRAW)", "sRAW2 (sRAW)");
     }
 
     /**
      * Canon hex-based EV (modulo 0x20) to real number.
-     *
+     * <p>
      * Converted from Exiftool version 10.10 created by Phil Harvey
      * http://www.sno.phy.queensu.ca/~phil/exiftool/
      * lib\Image\ExifTool\Canon.pm
-     *
-     *         eg) 0x00 -> 0
-     *             0x0c -> 0.33333
-     *             0x10 -> 0.5
-     *             0x14 -> 0.66666
-     *             0x20 -> 1   ... etc
+     * <p>
+     * eg) 0x00 -> 0
+     * 0x0c -> 0.33333
+     * 0x10 -> 0.5
+     * 0x14 -> 0.66666
+     * 0x20 -> 1   ... etc
      */
-    private double decodeCanonEv(int val)
-    {
+    private double decodeCanonEv(int val) {
         int sign = 1;
-        if (val < 0)
-        {
+        if (val < 0) {
             val = -val;
             sign = -1;
         }
@@ -935,17 +887,17 @@ public class CanonMakernoteDescriptor extends TagDescriptor<CanonMakernoteDirect
         else if (frac == 0x14)
             frac = 0x40 / 3;
 
-        return sign * (val + frac) / (double)0x20;
+        return sign * (val + frac) / (double) 0x20;
     }
 
     /**
-     *  Map from <see cref="CanonMakernoteDirectory.CameraSettings.TagLensType"/> to string descriptions.
-     *
-     *  Data sourced from http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Canon.html#LensType
-     *
-     *  Note that only Canon lenses are listed. Lenses from other manufacturers may identify themselves to the camera
-     *  as being from this set, but in fact may be quite different. This limits the usefulness of this data,
-     *  unfortunately.
+     * Map from <see cref="CanonMakernoteDirectory.CameraSettings.TagLensType"/> to string descriptions.
+     * <p>
+     * Data sourced from http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Canon.html#LensType
+     * <p>
+     * Note that only Canon lenses are listed. Lenses from other manufacturers may identify themselves to the camera
+     * as being from this set, but in fact may be quite different. This limits the usefulness of this data,
+     * unfortunately.
      */
     private static final HashMap<Integer, String> _lensTypeById = new HashMap<Integer, String>();
 

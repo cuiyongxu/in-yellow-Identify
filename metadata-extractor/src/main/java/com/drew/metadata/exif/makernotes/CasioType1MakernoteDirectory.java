@@ -27,15 +27,14 @@ import java.util.HashMap;
 
 /**
  * Describes tags specific to Casio (type 1) cameras.
- *
+ * <p>
  * A standard TIFF IFD directory but always uses Motorola (Big-Endian) Byte Alignment.
  * Makernote data begins immediately (no header).
  *
  * @author Drew Noakes https://drewnoakes.com
  */
 @SuppressWarnings("WeakerAccess")
-public class CasioType1MakernoteDirectory extends Directory
-{
+public class CasioType1MakernoteDirectory extends Directory {
     public static final int TAG_RECORDING_MODE = 0x0001;
     public static final int TAG_QUALITY = 0x0002;
     public static final int TAG_FOCUSING_MODE = 0x0003;
@@ -60,8 +59,7 @@ public class CasioType1MakernoteDirectory extends Directory
     @NotNull
     protected static final HashMap<Integer, String> _tagNameMap = new HashMap<Integer, String>();
 
-    static
-    {
+    static {
         _tagNameMap.put(TAG_CCD_SENSITIVITY, "CCD Sensitivity");
         _tagNameMap.put(TAG_CONTRAST, "Contrast");
         _tagNameMap.put(TAG_DIGITAL_ZOOM, "Digital Zoom");
@@ -84,22 +82,19 @@ public class CasioType1MakernoteDirectory extends Directory
         _tagNameMap.put(TAG_WHITE_BALANCE, "White Balance");
     }
 
-    public CasioType1MakernoteDirectory()
-    {
+    public CasioType1MakernoteDirectory() {
         this.setDescriptor(new CasioType1MakernoteDescriptor(this));
     }
 
     @Override
     @NotNull
-    public String getName()
-    {
+    public String getName() {
         return "Casio Makernote";
     }
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
-    {
+    protected HashMap<Integer, String> getTagNameMap() {
         return _tagNameMap;
     }
 }

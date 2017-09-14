@@ -30,8 +30,7 @@ import com.drew.lang.annotations.NotNull;
  *
  * @author Drew Noakes https://drewnoakes.com
  */
-public interface MetadataReader
-{
+public interface MetadataReader {
     /**
      * Extracts metadata from <code>reader</code> and merges it into the specified {@link Metadata} object.
      *

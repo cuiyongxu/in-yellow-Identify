@@ -31,8 +31,7 @@ import java.util.HashMap;
  * @author Nadahar
  */
 @SuppressWarnings("WeakerAccess")
-public class BmpHeaderDirectory extends Directory
-{
+public class BmpHeaderDirectory extends Directory {
     public static final int TAG_BITMAP_TYPE = -2;
     public static final int TAG_HEADER_SIZE = -1;
 
@@ -88,8 +87,7 @@ public class BmpHeaderDirectory extends Directory
         _tagNameMap.put(TAG_LINKED_PROFILE, "Linked Profile File Name");
     }
 
-    public BmpHeaderDirectory()
-    {
+    public BmpHeaderDirectory() {
         this.setDescriptor(new BmpHeaderDescriptor(this));
     }
 
@@ -130,36 +128,46 @@ public class BmpHeaderDirectory extends Directory
 
     @Override
     @NotNull
-    public String getName()
-    {
+    public String getName() {
         return "BMP Header";
     }
 
     @Override
     @NotNull
-    protected HashMap<Integer, String> getTagNameMap()
-    {
+    protected HashMap<Integer, String> getTagNameMap() {
         return _tagNameMap;
     }
 
     public enum BitmapType {
 
-           /** "BM" - Windows or OS/2 bitmap */
+        /**
+         * "BM" - Windows or OS/2 bitmap
+         */
         BITMAP(0x4D42),
 
-        /** "BA" - OS/2 Bitmap array (multiple bitmaps) */
+        /**
+         * "BA" - OS/2 Bitmap array (multiple bitmaps)
+         */
         OS2_BITMAP_ARRAY(0x4142),
 
-            /** "IC" - OS/2 Icon */
+        /**
+         * "IC" - OS/2 Icon
+         */
         OS2_ICON(0x4349),
 
-            /** "CI" - OS/2 Color icon */
+        /**
+         * "CI" - OS/2 Color icon
+         */
         OS2_COLOR_ICON(0x4943),
 
-        /** "CP" - OS/2 Color pointer */
+        /**
+         * "CP" - OS/2 Color pointer
+         */
         OS2_COLOR_POINTER(0x5043),
 
-            /** "PT" - OS/2 Pointer */
+        /**
+         * "PT" - OS/2 Pointer
+         */
         OS2_POINTER(0x5450);
 
         private final int value;
@@ -174,10 +182,8 @@ public class BmpHeaderDirectory extends Directory
 
         @Nullable
         public static BitmapType typeOf(int value) {
-            for (BitmapType bitmapType : BitmapType.values())
-            {
-                if (bitmapType.value == value)
-                {
+            for (BitmapType bitmapType : BitmapType.values()) {
+                if (bitmapType.value == value) {
                     return bitmapType;
                 }
             }
@@ -188,12 +194,18 @@ public class BmpHeaderDirectory extends Directory
         @NotNull
         public String toString() {
             switch (this) {
-                case BITMAP: return "Standard";
-                case OS2_BITMAP_ARRAY: return "Bitmap Array";
-                case OS2_COLOR_ICON: return "Color Icon";
-                case OS2_COLOR_POINTER: return "Color Pointer";
-                case OS2_ICON: return "Monochrome Icon";
-                case OS2_POINTER: return "Monochrome Pointer";
+                case BITMAP:
+                    return "Standard";
+                case OS2_BITMAP_ARRAY:
+                    return "Bitmap Array";
+                case OS2_COLOR_ICON:
+                    return "Color Icon";
+                case OS2_COLOR_POINTER:
+                    return "Color Pointer";
+                case OS2_ICON:
+                    return "Monochrome Icon";
+                case OS2_POINTER:
+                    return "Monochrome Pointer";
                 default:
                     throw new IllegalStateException("Unimplemented bitmap type " + super.toString());
             }
@@ -202,40 +214,64 @@ public class BmpHeaderDirectory extends Directory
 
     public enum Compression {
 
-        /** 0 = None */
+        /**
+         * 0 = None
+         */
         BI_RGB(0),
 
-        /** 1 = RLE 8-bit/pixel */
+        /**
+         * 1 = RLE 8-bit/pixel
+         */
         BI_RLE8(1),
 
-        /** 2 = RLE 4-bit/pixel */
+        /**
+         * 2 = RLE 4-bit/pixel
+         */
         BI_RLE4(2),
 
-        /** 3 = Bit fields (not OS22XBITMAPHEADER (size 64)) */
+        /**
+         * 3 = Bit fields (not OS22XBITMAPHEADER (size 64))
+         */
         BI_BITFIELDS(3),
 
-        /** 3 = Huffman 1D (if OS22XBITMAPHEADER (size 64)) */
+        /**
+         * 3 = Huffman 1D (if OS22XBITMAPHEADER (size 64))
+         */
         BI_HUFFMAN_1D(3),
 
-        /** 4 = JPEG (not OS22XBITMAPHEADER (size 64)) */
+        /**
+         * 4 = JPEG (not OS22XBITMAPHEADER (size 64))
+         */
         BI_JPEG(4),
 
-        /** 4 = RLE 24-bit/pixel (if OS22XBITMAPHEADER (size 64)) */
+        /**
+         * 4 = RLE 24-bit/pixel (if OS22XBITMAPHEADER (size 64))
+         */
         BI_RLE24(4),
 
-        /** 5 = PNG */
+        /**
+         * 5 = PNG
+         */
         BI_PNG(5),
 
-        /** 6 = RGBA bit fields */
+        /**
+         * 6 = RGBA bit fields
+         */
         BI_ALPHABITFIELDS(6),
 
-        /** 11 = CMYK */
+        /**
+         * 11 = CMYK
+         */
         BI_CMYK(11),
 
-        /** 12 = CMYK RLE-8 */
+        /**
+         * 12 = CMYK RLE-8
+         */
         BI_CMYKRLE8(12),
 
-        /** 13 = CMYK RLE-4 */
+        /**
+         * 13 = CMYK RLE-4
+         */
         BI_CMYKRLE4(13);
 
         private final int value;
@@ -263,17 +299,28 @@ public class BmpHeaderDirectory extends Directory
         @Nullable
         public static Compression typeOf(int value, int headerSize) {
             switch (value) {
-                case 0:  return BI_RGB;
-                case 1:  return BI_RLE8;
-                case 2:  return BI_RLE4;
-                case 3:  return headerSize == 64 ? BI_HUFFMAN_1D : BI_BITFIELDS;
-                case 4:  return headerSize == 64 ? BI_RLE24 : BI_JPEG;
-                case 5:  return BI_PNG;
-                case 6:  return BI_ALPHABITFIELDS;
-                case 11: return BI_CMYK;
-                case 12: return BI_CMYKRLE8;
-                case 13: return BI_CMYKRLE4;
-                default: return null;
+                case 0:
+                    return BI_RGB;
+                case 1:
+                    return BI_RLE8;
+                case 2:
+                    return BI_RLE4;
+                case 3:
+                    return headerSize == 64 ? BI_HUFFMAN_1D : BI_BITFIELDS;
+                case 4:
+                    return headerSize == 64 ? BI_RLE24 : BI_JPEG;
+                case 5:
+                    return BI_PNG;
+                case 6:
+                    return BI_ALPHABITFIELDS;
+                case 11:
+                    return BI_CMYK;
+                case 12:
+                    return BI_CMYKRLE8;
+                case 13:
+                    return BI_CMYKRLE4;
+                default:
+                    return null;
             }
         }
 
@@ -281,18 +328,30 @@ public class BmpHeaderDirectory extends Directory
         @NotNull
         public String toString() {
             switch (this) {
-                case BI_RGB:            return "None";
-                case BI_RLE8:           return "RLE 8-bit/pixel";
-                case BI_RLE4:           return "RLE 4-bit/pixel";
-                case BI_BITFIELDS:      return "Bit Fields";
-                case BI_HUFFMAN_1D:     return "Huffman 1D";
-                case BI_JPEG:           return "JPEG";
-                case BI_RLE24:          return "RLE 24-bit/pixel";
-                case BI_PNG:            return "PNG";
-                case BI_ALPHABITFIELDS: return "RGBA Bit Fields";
-                case BI_CMYK:           return "CMYK Uncompressed";
-                case BI_CMYKRLE8:       return "CMYK RLE-8";
-                case BI_CMYKRLE4:       return "CMYK RLE-4";
+                case BI_RGB:
+                    return "None";
+                case BI_RLE8:
+                    return "RLE 8-bit/pixel";
+                case BI_RLE4:
+                    return "RLE 4-bit/pixel";
+                case BI_BITFIELDS:
+                    return "Bit Fields";
+                case BI_HUFFMAN_1D:
+                    return "Huffman 1D";
+                case BI_JPEG:
+                    return "JPEG";
+                case BI_RLE24:
+                    return "RLE 24-bit/pixel";
+                case BI_PNG:
+                    return "PNG";
+                case BI_ALPHABITFIELDS:
+                    return "RGBA Bit Fields";
+                case BI_CMYK:
+                    return "CMYK Uncompressed";
+                case BI_CMYKRLE8:
+                    return "CMYK RLE-8";
+                case BI_CMYKRLE4:
+                    return "CMYK RLE-4";
                 default:
                     throw new IllegalStateException("Unimplemented compression type " + super.toString());
             }
@@ -301,16 +360,24 @@ public class BmpHeaderDirectory extends Directory
 
     public enum RenderingHalftoningAlgorithm {
 
-        /** No halftoning algorithm */
+        /**
+         * No halftoning algorithm
+         */
         NONE(0),
 
-        /** Error Diffusion Halftoning */
+        /**
+         * Error Diffusion Halftoning
+         */
         ERROR_DIFFUSION(1),
 
-        /** Processing Algorithm for Noncoded Document Acquisition */
+        /**
+         * Processing Algorithm for Noncoded Document Acquisition
+         */
         PANDA(2),
 
-        /** Super-circle Halftoning */
+        /**
+         * Super-circle Halftoning
+         */
         SUPER_CIRCLE(3);
 
         private final int value;
@@ -325,10 +392,8 @@ public class BmpHeaderDirectory extends Directory
 
         @Nullable
         public static RenderingHalftoningAlgorithm typeOf(int value) {
-            for (RenderingHalftoningAlgorithm renderingHalftoningAlgorithm : RenderingHalftoningAlgorithm.values())
-            {
-                if (renderingHalftoningAlgorithm.value == value)
-                {
+            for (RenderingHalftoningAlgorithm renderingHalftoningAlgorithm : RenderingHalftoningAlgorithm.values()) {
+                if (renderingHalftoningAlgorithm.value == value) {
                     return renderingHalftoningAlgorithm;
                 }
             }
@@ -374,19 +439,29 @@ public class BmpHeaderDirectory extends Directory
 
     public enum ColorSpaceType {
 
-        /** 0 = Calibrated RGB */
+        /**
+         * 0 = Calibrated RGB
+         */
         LCS_CALIBRATED_RGB(0L),
 
-        /** "sRGB" = sRGB Color Space */
+        /**
+         * "sRGB" = sRGB Color Space
+         */
         LCS_sRGB(0x73524742L),
 
-        /** "Win " = System Default Color Space, sRGB */
+        /**
+         * "Win " = System Default Color Space, sRGB
+         */
         LCS_WINDOWS_COLOR_SPACE(0x57696E20L),
 
-        /** "LINK" = Linked Profile */
+        /**
+         * "LINK" = Linked Profile
+         */
         PROFILE_LINKED(0x4C494E4BL),
 
-        /** "MBED" = Embedded Profile */
+        /**
+         * "MBED" = Embedded Profile
+         */
         PROFILE_EMBEDDED(0x4D424544L);
 
         private final long value;
@@ -401,10 +476,8 @@ public class BmpHeaderDirectory extends Directory
 
         @Nullable
         public static ColorSpaceType typeOf(long value) {
-            for (ColorSpaceType colorSpaceType : ColorSpaceType.values())
-            {
-                if (colorSpaceType.value == value)
-                {
+            for (ColorSpaceType colorSpaceType : ColorSpaceType.values()) {
+                if (colorSpaceType.value == value) {
                     return colorSpaceType;
                 }
             }
@@ -433,16 +506,24 @@ public class BmpHeaderDirectory extends Directory
 
     public enum RenderingIntent {
 
-        /** Graphic, Saturation */
+        /**
+         * Graphic, Saturation
+         */
         LCS_GM_BUSINESS(1),
 
-        /** Proof, Relative Colorimetric */
+        /**
+         * Proof, Relative Colorimetric
+         */
         LCS_GM_GRAPHICS(2),
 
-        /** Picture, Perceptual */
+        /**
+         * Picture, Perceptual
+         */
         LCS_GM_IMAGES(4),
 
-        /** Match, Absolute Colorimetric */
+        /**
+         * Match, Absolute Colorimetric
+         */
         LCS_GM_ABS_COLORIMETRIC(8);
 
         private final int value;
@@ -457,10 +538,8 @@ public class BmpHeaderDirectory extends Directory
 
         @Nullable
         public static RenderingIntent typeOf(long value) {
-            for (RenderingIntent renderingIntent : RenderingIntent.values())
-            {
-                if (renderingIntent.value == value)
-                {
+            for (RenderingIntent renderingIntent : RenderingIntent.values()) {
+                if (renderingIntent.value == value) {
                     return renderingIntent;
                 }
             }

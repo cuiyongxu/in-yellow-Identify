@@ -3,7 +3,7 @@
     <parent>
         <artifactId>in-yellow-Identify</artifactId>
         <groupId>com.ijson</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -21,11 +21,17 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
-        <dependency>
+       <dependency>
             <groupId>com.ijson</groupId>
             <artifactId>metadata-extractor</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
+<!--        <dependency>
+            <groupId>com.drewnoakes</groupId>
+            <artifactId>metadata-extractor</artifactId>
+            <version>2.10.1</version>
+        </dependency>-->
     </dependencies>
 </project>
